@@ -34,13 +34,24 @@ class PasswordValidatorTest extends TestCase
         $result = $this->passwordValidator->validate($testcase);
 
         $this->assertSame(['success' => false, 'error-message' => 'Password must be at least 8 characters long'], $result);
+
+    }
+
+    /**
+     * @dataProvider shouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbers
+     */
+    public function testShouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbers(string $testcase): void
+    {
+        $result = $this->passwordValidator->validate($testcase);
+
+        $this->assertSame(['success' => false, 'error-message' => 'Password must contain at least 2 numbers'], $result);
     }
 
     public static function shouldAcceptPasswordsLongerThanSevenCharactersLongDataProvider(): array
     {
         return [
-            ['abcdefgh'],
-            ['abcdefghijklm'],
+            ['abc12fgh'],
+            ['abcdefghij57lm'],
         ];
     }
 
@@ -49,6 +60,17 @@ class PasswordValidatorTest extends TestCase
         return [
             ['abc'],
             ['1234567'],
+        ];
+    }
+
+    public static function shouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbers(): array
+    {
+        return [
+            ['abcdefgh'],
+            ['abcdefg1'],
+            ['abcdefgha'],
+            ['abcdefg1h'],
+            ['abcdefghijk2'],
         ];
     }
 }
