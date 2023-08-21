@@ -72,7 +72,7 @@ class PasswordValidatorTest extends TestCase
     public static function shouldAcceptPasswordsLongerThanSevenCharactersLongDataProvider(): array
     {
         return [
-            ['abc12fAh'],
+            ['ab2c2fAh'],
             ['abcdefAhij57lm'],
         ];
     }
@@ -80,7 +80,7 @@ class PasswordValidatorTest extends TestCase
     public static function shouldReturnErrorMessageGivenPasswordsShorterThanEightCharactersLongDataProvider(): array
     {
         return [
-            ['a78Bc'],
+            ['a7Bc3'],
             ['1234Z67'],
         ];
     }
@@ -107,7 +107,7 @@ class PasswordValidatorTest extends TestCase
     public static function shouldReturnErrorMessageGivenNoCapitalLettersDataProvider(): array
     {
         return [
-            ['abcdef21ijk'],
+            ['abc2defg1ijk'],
             ['abcd3e66'],
         ];
     }
