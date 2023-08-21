@@ -17,98 +17,58 @@ class PasswordValidatorTest extends TestCase
     }
 
     /**
-     * @dataProvider shouldAcceptPasswordsLongerThanSevenCharactersLongDataProvider
+     * @dataProvider shouldReturnMultipleErrorMessagesGivenVariousCombinationsOfInvalidInputsDataProvider
      */
-    public function testShouldAcceptPasswordsLongerThanSevenCharactersLong(string $testcase): void
+    public function testShouldReturnMultipleErrorMessagesGivenVariousCombinationsOfInvalidInputs(string $testcase, string $errorMessage): void
+    {
+        $result = $this->passwordValidator->validate($testcase);
+
+        $this->assertSame(['success' => false, 'error-message' => $errorMessage], $result);
+    }
+
+    /**
+     * @dataProvider shouldPassGivenCorrectInputPassword
+     */
+    public function testShouldPassGivenCorrectInputPassword(string $testcase): void
     {
         $result = $this->passwordValidator->validate($testcase);
 
         $this->assertSame(['success' => true], $result);
     }
 
-    /**
-     * @dataProvider shouldReturnErrorMessageGivenPasswordsShorterThanEightCharactersLongDataProvider
-     */
-    public function testShouldReturnErrorMessageGivenPasswordsShorterThanEightCharactersLong(string $testcase): void
-    {
-        $result = $this->passwordValidator->validate($testcase);
-
-        $this->assertSame(['success' => false, 'error-message' => 'Password must be at least 8 characters long'], $result);
-    }
-
-    /**
-     * @dataProvider shouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbersDataProvider
-     */
-    public function testShouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbers(string $testcase): void
-    {
-        $result = $this->passwordValidator->validate($testcase);
-
-        $this->assertSame(['success' => false, 'error-message' => 'Password must contain at least 2 numbers'], $result);
-    }
-
-    /**
-     * @dataProvider shouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEightDataProvider
-     */
-    public function testShouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEight(string $testcase): void
-    {
-        $result = $this->passwordValidator->validate($testcase);
-
-        $this->assertSame([
-            'success' => false,
-            'error-message' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers"
-        ], $result);
-    }
-
-    /**
-     * @dataProvider shouldReturnErrorMessageGivenNoCapitalLettersDataProvider
-     */
-    public function testShouldReturnErrorMessageGivenNoCapitalLetters(string $testcase): void
-    {
-        $result = $this->passwordValidator->validate($testcase);
-
-        $this->assertSame(['success' => false, 'error-message' => 'Password must contain at least one capital letter'], $result);
-    }
-
-    public static function shouldAcceptPasswordsLongerThanSevenCharactersLongDataProvider(): array
+    public static function shouldReturnMultipleErrorMessagesGivenVariousCombinationsOfInvalidInputsDataProvider(): array
     {
         return [
-            ['ab2c2fAh'],
-            ['abcdefAhij57lm'],
+            ['', "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least one capital letter"],
+            ['1', "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least one capital letter"],
+            ['acd', "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least one capital letter"],
+            ['A', "Password must be at least 8 characters long\nPassword must contain at least 2 numbers"],
+            ['52', "Password must be at least 8 characters long\nPassword must contain at least one capital letter"],
+            ['Bacd', "Password must be at least 8 characters long\nPassword must contain at least 2 numbers"],
+            ['a1a5', "Password must be at least 8 characters long\nPassword must contain at least one capital letter"],
+            ['abcD3ef', "Password must be at least 8 characters long\nPassword must contain at least 2 numbers"],
+            ['abc3efabc', "Password must contain at least 2 numbers\nPassword must contain at least one capital letter"],
+            ['a7Bc3', 'Password must be at least 8 characters long'],
+            ['AB34Z67', 'Password must be at least 8 characters long'],
+            ['abcAefgh', 'Password must contain at least 2 numbers'],
+            ['abcdBfg1', 'Password must contain at least 2 numbers'],
+            ['abcdefg1H', 'Password must contain at least 2 numbers'],
+            ['abcHefghijK2', 'Password must contain at least 2 numbers'],
+            ['abcdefg15', 'Password must contain at least one capital letter'],
+            ['ab6ef7hijd2', 'Password must contain at least one capital letter'],
         ];
     }
 
-    public static function shouldReturnErrorMessageGivenPasswordsShorterThanEightCharactersLongDataProvider(): array
+    public static function shouldPassGivenCorrectInputPassword(): array
     {
         return [
-            ['a7Bc3'],
-            ['1234Z67'],
-        ];
-    }
-
-    public static function shouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbersDataProvider(): array
-    {
-        return [
-            ['abcAefgh'],
-            ['abcdBfg1'],
-            ['abcdEfgha'],
-            ['abcdefg1H'],
-            ['abcdefghijK2'],
-        ];
-    }
-
-    public static function shouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEightDataProvider(): array
-    {
-        return [
-            ['aBcd'],
-            ['abcD3ef'],
-        ];
-    }
-
-    public static function shouldReturnErrorMessageGivenNoCapitalLettersDataProvider(): array
-    {
-        return [
-            ['abc2defg1ijk'],
-            ['abcd3e66'],
+            ['1234567A'],
+            ['1A345678'],
+            ['23CDEFGH'],
+            ['abcdE4g4'],
+            ['22dfdfAh'],
+            ['ab2c2fAh24gd'],
+            ['abcdEfAhij57lm'],
         ];
     }
 }
