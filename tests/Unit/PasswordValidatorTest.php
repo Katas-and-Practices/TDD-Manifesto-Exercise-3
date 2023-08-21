@@ -59,38 +59,56 @@ class PasswordValidatorTest extends TestCase
         ], $result);
     }
 
+    /**
+     * @dataProvider shouldReturnErrorMessageGivenNoCapitalLettersDataProvider
+     */
+    public function testShouldReturnErrorMessageGivenNoCapitalLetters(string $testcase): void
+    {
+        $result = $this->passwordValidator->validate($testcase);
+
+        $this->assertSame(['success' => false, 'error-message' => 'Password must contain at least one capital letter'], $result);
+    }
+
     public static function shouldAcceptPasswordsLongerThanSevenCharactersLongDataProvider(): array
     {
         return [
-            ['abc12fgh'],
-            ['abcdefghij57lm'],
+            ['abc12fAh'],
+            ['abcdefAhij57lm'],
         ];
     }
 
     public static function shouldReturnErrorMessageGivenPasswordsShorterThanEightCharactersLongDataProvider(): array
     {
         return [
-            ['a78c'],
-            ['1234567'],
+            ['a78Bc'],
+            ['1234Z67'],
         ];
     }
 
     public static function shouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbersDataProvider(): array
     {
         return [
-            ['abcdefgh'],
-            ['abcdefg1'],
-            ['abcdefgha'],
-            ['abcdefg1h'],
-            ['abcdefghijk2'],
+            ['abcAefgh'],
+            ['abcdBfg1'],
+            ['abcdEfgha'],
+            ['abcdefg1H'],
+            ['abcdefghijK2'],
         ];
     }
 
     public static function shouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEightDataProvider(): array
     {
         return [
-            ['abcd'],
-            ['abcd3ef'],
+            ['aBcd'],
+            ['abcD3ef'],
+        ];
+    }
+
+    public static function shouldReturnErrorMessageGivenNoCapitalLettersDataProvider(): array
+    {
+        return [
+            ['abcdef21ijk'],
+            ['abcd3e66'],
         ];
     }
 }
