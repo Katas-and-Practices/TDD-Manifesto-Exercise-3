@@ -2,22 +2,40 @@
 
 namespace Exercise3;
 
+require_once 'src/rules/Rule.php';
+require_once 'src/rules/RuleResult.php';
+require_once 'src/rules/CharacterLengthAtLeastEightRule.php';
+require_once 'src/rules/ContainsAtLeastTwoNumbersRule.php';
+
+use Exercise3\Rules\CharacterLengthAtLeastEightRule;
+use Exercise3\Rules\ContainsAtLeastTwoNumbersRule;
+use Exercise3\Rules\Rule;
+use Exercise3\Rules\RuleResult;
+
 class PasswordValidator
 {
+    private array $ruleset = [
+        CharacterLengthAtLeastEightRule::class,
+        ContainsAtLeastTwoNumbersRule::class,
+    ];
+
     public function validate(string $inputPassword)
     {
-        $errorMessage = null;
-        $success = false;
+        return $this->applyRules($inputPassword);
+    }
 
-        if (strlen($inputPassword) > 7) {
-            $success = true;
-        }
-        else {
-            $errorMessage = 'Password must be at least 8 characters long';
-        }
-        if (!preg_match('/.*[0-9]{2}.*/', $inputPassword)) {
-            $success = false;
-            $errorMessage = $errorMessage ?? 'Password must contain at least 2 numbers';
+    private function applyRules(string $input): array
+    {
+        $success = true;
+        $errorMessage = '';
+
+        /** @var Rule $rule */
+        foreach ($this->ruleset as $rule) {
+            /** @var RuleResult $result */
+            $result = (new $rule())->apply($input);
+
+            $success = $success && $result->getSuccess();
+            $errorMessage = $errorMessage ?: $result->getErrorMessage();
         }
 
         return array_merge(['success' => $success], $errorMessage ? ['error-message' => $errorMessage] : []);
