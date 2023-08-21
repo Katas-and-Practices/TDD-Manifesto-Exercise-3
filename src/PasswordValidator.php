@@ -26,14 +26,23 @@ class PasswordValidator
 
     private function applyRules(string $input): array
     {
-        $success = true;
-        $errorMessage = '';
+        $rawResults = [];
 
         /** @var Rule $rule */
         foreach ($this->ruleset as $rule) {
-            /** @var RuleResult $result */
-            $result = (new $rule())->apply($input);
+            $rawResults[] = (new $rule())->apply($input);
+        }
 
+        return $this->aggregateRuleApplicationResults($rawResults);
+    }
+
+    private function aggregateRuleApplicationResults(array $rawResults): array
+    {
+        $success = true;
+        $errorMessage = '';
+
+        /** @var RuleResult $result */
+        foreach ($rawResults as $result) {
             $success = $success && $result->getSuccess();
             $newErrorMessage = $result->getErrorMessage();
             $errorMessage .= ($newErrorMessage && $errorMessage ? "\n" : '') . $result->getErrorMessage();

@@ -37,7 +37,7 @@ class PasswordValidatorTest extends TestCase
     }
 
     /**
-     * @dataProvider shouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbers
+     * @dataProvider shouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbersDataProvider
      */
     public function testShouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbers(string $testcase): void
     {
@@ -47,7 +47,7 @@ class PasswordValidatorTest extends TestCase
     }
 
     /**
-     * @dataProvider shouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEight
+     * @dataProvider shouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEightDataProvider
      */
     public function testShouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEight(string $testcase): void
     {
@@ -75,7 +75,7 @@ class PasswordValidatorTest extends TestCase
         ];
     }
 
-    public static function shouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbers(): array
+    public static function shouldReturnErrorMessageGivenPasswordsWithoutAtLeastTwoNumbersDataProvider(): array
     {
         return [
             ['abcdefgh'],
@@ -86,7 +86,7 @@ class PasswordValidatorTest extends TestCase
         ];
     }
 
-    public static function shouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEight(): array
+    public static function shouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEightDataProvider(): array
     {
         return [
             ['abcd'],
