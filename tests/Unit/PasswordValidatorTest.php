@@ -23,17 +23,17 @@ class PasswordValidatorTest extends TestCase
     {
         $result = $this->passwordValidator->validate($testcase);
 
-        $this->assertSame(true, $result);
+        $this->assertSame(['success' => true], $result);
     }
 
     /**
      * @dataProvider shouldReturnErrorMessageGivenPasswordsShorterThanNineCharactersLongDataProvider
      */
-    public function testShouldReturnErrorMessageGivenPasswordsShorterThanEightCharactersLong(string $testcase, string $errorMessage): void
+    public function testShouldReturnErrorMessageGivenPasswordsShorterThanEightCharactersLong(string $testcase): void
     {
-        $this->expectExceptionMessage($errorMessage);
+        $result = $this->passwordValidator->validate($testcase);
 
-        $this->passwordValidator->validate($testcase);
+        $this->assertSame(['success' => false, 'error-message' => 'Password must be at least 8 characters long'], $result);
     }
 
     public static function shouldAcceptPasswordsLongerThanSevenCharactersLongDataProvider(): array
@@ -47,8 +47,8 @@ class PasswordValidatorTest extends TestCase
     public static function shouldReturnErrorMessageGivenPasswordsShorterThanNineCharactersLongDataProvider(): array
     {
         return [
-            ['abc', 'Password must be at least 8 characters long'],
-            ['1234567', 'Password must be at least 8 characters long'],
+            ['abc'],
+            ['1234567'],
         ];
     }
 }
