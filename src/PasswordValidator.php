@@ -7,9 +7,11 @@ require_once 'src/rules/RuleResult.php';
 require_once 'src/rules/CharacterLengthAtLeastEightRule.php';
 require_once 'src/rules/ContainsAtLeastTwoNumbersRule.php';
 require_once 'src/rules/ContainsAtLeastOneCapitalLetterRule.php';
+require_once 'src/rules/ContainsAtLeastOneSpecialCharacterRule.php';
 
 use Exercise3\Rules\CharacterLengthAtLeastEightRule;
 use Exercise3\Rules\ContainsAtLeastOneCapitalLetterRule;
+use Exercise3\Rules\ContainsAtLeastOneSpecialCharacterRule;
 use Exercise3\Rules\ContainsAtLeastTwoNumbersRule;
 use Exercise3\Rules\Rule;
 use Exercise3\Rules\RuleResult;
@@ -20,6 +22,7 @@ class PasswordValidator
         CharacterLengthAtLeastEightRule::class,
         ContainsAtLeastTwoNumbersRule::class,
         ContainsAtLeastOneCapitalLetterRule::class,
+        ContainsAtLeastOneSpecialCharacterRule::class,
     ];
 
     public function validate(string $inputPassword)
