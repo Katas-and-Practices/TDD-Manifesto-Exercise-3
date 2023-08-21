@@ -35,7 +35,8 @@ class PasswordValidator
             $result = (new $rule())->apply($input);
 
             $success = $success && $result->getSuccess();
-            $errorMessage = $errorMessage ?: $result->getErrorMessage();
+            $newErrorMessage = $result->getErrorMessage();
+            $errorMessage .= ($newErrorMessage && $errorMessage ? "\n" : '') . $result->getErrorMessage();
         }
 
         return array_merge(['success' => $success], $errorMessage ? ['error-message' => $errorMessage] : []);

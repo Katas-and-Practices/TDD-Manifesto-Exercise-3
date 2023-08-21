@@ -27,14 +27,13 @@ class PasswordValidatorTest extends TestCase
     }
 
     /**
-     * @dataProvider shouldReturnErrorMessageGivenPasswordsShorterThanNineCharactersLongDataProvider
+     * @dataProvider shouldReturnErrorMessageGivenPasswordsShorterThanEightCharactersLongDataProvider
      */
     public function testShouldReturnErrorMessageGivenPasswordsShorterThanEightCharactersLong(string $testcase): void
     {
         $result = $this->passwordValidator->validate($testcase);
 
         $this->assertSame(['success' => false, 'error-message' => 'Password must be at least 8 characters long'], $result);
-
     }
 
     /**
@@ -47,6 +46,19 @@ class PasswordValidatorTest extends TestCase
         $this->assertSame(['success' => false, 'error-message' => 'Password must contain at least 2 numbers'], $result);
     }
 
+    /**
+     * @dataProvider shouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEight
+     */
+    public function testShouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEight(string $testcase): void
+    {
+        $result = $this->passwordValidator->validate($testcase);
+
+        $this->assertSame([
+            'success' => false,
+            'error-message' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers"
+        ], $result);
+    }
+
     public static function shouldAcceptPasswordsLongerThanSevenCharactersLongDataProvider(): array
     {
         return [
@@ -55,10 +67,10 @@ class PasswordValidatorTest extends TestCase
         ];
     }
 
-    public static function shouldReturnErrorMessageGivenPasswordsShorterThanNineCharactersLongDataProvider(): array
+    public static function shouldReturnErrorMessageGivenPasswordsShorterThanEightCharactersLongDataProvider(): array
     {
         return [
-            ['abc'],
+            ['a78c'],
             ['1234567'],
         ];
     }
@@ -71,6 +83,14 @@ class PasswordValidatorTest extends TestCase
             ['abcdefgha'],
             ['abcdefg1h'],
             ['abcdefghijk2'],
+        ];
+    }
+
+    public static function shouldReturnTwoErrorMessagesGivenPasswordsWithoutTwoNumbersAndShorterThanEight(): array
+    {
+        return [
+            ['abcd'],
+            ['abcd3ef'],
         ];
     }
 }
