@@ -22,8 +22,17 @@ class PasswordValidator implements Validator
         ['class' => ContainsAtLeastNSpecialCharacterRule::class, 'args' => [1]],
     ];
 
+    private array $rulesetObjects;
+
+    public function __construct()
+    {
+        foreach ($this->ruleset as $rule) {
+            $this->rulesetObjects[] = new $rule['class'](...$rule['args']);
+        }
+    }
+
     public function getRules(): array
     {
-        return $this->ruleset;
+        return $this->rulesetObjects;
     }
 }

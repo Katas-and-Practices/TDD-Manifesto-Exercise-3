@@ -21,10 +21,9 @@ class ValidatorRunner
         $rawResults = [];
         $ruleset = $this->validator->getRules();
 
+        /** @var RuleBase $ruleObject */
         foreach ($ruleset as $rule) {
-            /** @var RuleBase $ruleObject */
-            $ruleObject = new $rule['class'](...$rule['args']);
-            $rawResults[] = $ruleObject->apply($input);
+            $rawResults[] = $rule->apply($input);
         }
 
         return $this->aggregateRuleApplicationResults($rawResults);
