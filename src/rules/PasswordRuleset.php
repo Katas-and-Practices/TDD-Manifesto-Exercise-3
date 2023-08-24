@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Exercise3\Rules;
 
 require_once 'Ruleset.php';

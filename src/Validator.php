@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Exercise3;
 
 require_once 'rules/RuleApplicationAggregator.php';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Exercise3\Rules;
 
 require_once 'RuleBase.php';
@@ -17,7 +19,7 @@ class ContainsAtLeastMNumbersRule extends RuleBase
 
     public function apply(string $input): RuleResult
     {
-        $this->success = preg_match('/.*([0-9].*){' . $this->atLeastCount . ',}/', $input);
+        $this->success = (bool)preg_match('/.*([0-9].*){' . $this->atLeastCount . ',}/', $input);
         $errorMessage = $this->getErrorMessage();
 
         return new RuleResult($this->success, $errorMessage);
