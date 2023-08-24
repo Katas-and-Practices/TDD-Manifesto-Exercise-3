@@ -2,7 +2,7 @@
 
 namespace Exercise3;
 
-use Exercise3\Rules\Rule;
+use Exercise3\Rules\RuleBase;
 use Exercise3\Rules\RuleResult;
 
 class ValidatorRunner
@@ -21,9 +21,10 @@ class ValidatorRunner
         $rawResults = [];
         $ruleset = $this->validator->getRules();
 
-        /** @var Rule $rule */
         foreach ($ruleset as $rule) {
-            $rawResults[] = (new $rule())->apply($input);
+            /** @var RuleBase $ruleObject */
+            $ruleObject = new $rule['class'](...$rule['args']);
+            $rawResults[] = $ruleObject->apply($input);
         }
 
         return $this->aggregateRuleApplicationResults($rawResults);
