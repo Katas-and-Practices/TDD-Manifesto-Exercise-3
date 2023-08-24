@@ -2,8 +2,9 @@
 
 namespace Exercise3;
 
-require_once 'RuleApplicationAggregator.php';
+require_once 'rules/RuleApplicationAggregator.php';
 
+use Exercise3\Rules\RuleApplicationAggregator;
 use Exercise3\Rules\RuleBase;
 
 class Validator

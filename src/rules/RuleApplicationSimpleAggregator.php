@@ -1,10 +1,10 @@
 <?php
 
-namespace Exercise3;
+namespace Exercise3\Rules;
 
-use Exercise3\Rules\RuleResult;
+require_once 'RuleApplicationAggregator.php';
 
-class RuleApplicationAggregator
+class RuleApplicationSimpleAggregator implements RuleApplicationAggregator
 {
     private bool $success = true;
     private $errorMessageList = [];
