@@ -10,8 +10,9 @@ class ContainsAtLeastNSpecialCharacterRule extends RuleBase
     private bool $success;
 
     public function __construct(
+        public string $fieldName,
         private int $atLeastCount,
-        private string $errorMessage = 'Password must contain at least {0} special characters',
+        private string $errorMessage = '{fieldname} must contain at least {0} special characters',
     ) {}
 
     public function apply(string $input): RuleResult
@@ -26,6 +27,6 @@ class ContainsAtLeastNSpecialCharacterRule extends RuleBase
     {
         return $this->success
             ? ''
-            : str_replace('{0}', $this->atLeastCount, $this->errorMessage);
+            : str_replace(['{fieldname}', '{0}'], [$this->fieldName, $this->atLeastCount], $this->errorMessage);
     }
 }
