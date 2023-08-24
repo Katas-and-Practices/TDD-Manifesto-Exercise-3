@@ -3,17 +3,19 @@
 namespace Exercise3\Tests\Unit;
 
 require_once 'src/PasswordValidator.php';
+require_once 'src/ValidatorRunner.php';
 
 use Exercise3\PasswordValidator;
+use Exercise3\ValidatorRunner;
 use PHPUnit\Framework\TestCase;
 
 class PasswordValidatorTest extends TestCase
 {
-    public PasswordValidator $passwordValidator;
+    public ValidatorRunner $passwordValidator;
 
     public function setUp(): void
     {
-        $this->passwordValidator = new PasswordValidator();
+        $this->passwordValidator = new ValidatorRunner(new PasswordValidator());
     }
 
     /**
