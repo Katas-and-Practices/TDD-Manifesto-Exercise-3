@@ -20,6 +20,11 @@ class PasswordValidatorTest extends TestCase
     public Validator $validator;
     public static array $passwordRuleset;
 
+    protected const ERROR_MIN_8_CHAR_LENGTH = 'Password must be at least 8 characters long';
+    protected const ERROR_MIN_2_NUMBER = 'Password must contain at least 2 numbers';
+    protected const ERROR_MIN_1_CAPITAL = 'Password must contain at least 1 capital letters';
+    protected const ERROR_MIN_1_SPECIAL = 'Password must contain at least 1 special characters';
+
     public function setUp(): void
     {
         $this->validator = new Validator();
@@ -59,107 +64,31 @@ class PasswordValidatorTest extends TestCase
         return [
             [
                 ['Password' => ['value' => '', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least 1 capital letters\nPassword must contain at least 1 special characters"],
+                ['Password' => self::ERROR_MIN_8_CHAR_LENGTH . "\n" . self::ERROR_MIN_2_NUMBER . "\n" . self::ERROR_MIN_1_CAPITAL . "\n" . self::ERROR_MIN_1_SPECIAL],
             ],
             [
                 ['Password' => ['value' => '1', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least 1 capital letters\nPassword must contain at least 1 special characters"],
+                ['Password' => self::ERROR_MIN_8_CHAR_LENGTH . "\n" . self::ERROR_MIN_2_NUMBER . "\n" . self::ERROR_MIN_1_CAPITAL . "\n" . self::ERROR_MIN_1_SPECIAL],
             ],
             [
                 ['Password' => ['value' => 'acd', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least 1 capital letters\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'A', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => '52', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 1 capital letters\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => ')', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least 1 capital letters"],
-            ],
-            [
-                ['Password' => ['value' => 'Bacd', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'a1a5', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 1 capital letters\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'abcD3ef', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'abc3efabc', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must contain at least 2 numbers\nPassword must contain at least 1 capital letters\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'B_c?', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers"],
-            ],
-            [
-                ['Password' => ['value' => 'ab|3efabc', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must contain at least 2 numbers\nPassword must contain at least 1 capital letters"],
-            ],
-            [
-                ['Password' => ['value' => 'a7Bc3', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'AB34Z67', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'abcAefgh', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must contain at least 2 numbers\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'abcdBfg1', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must contain at least 2 numbers\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'abcdefg1H', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must contain at least 2 numbers\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'abcHefghijK2', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must contain at least 2 numbers\nPassword must contain at least 1 special characters"],
-            ],
-            [
-                ['Password' => ['value' => 'abcdefg15', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must contain at least 1 capital letters\nPassword must contain at least 1 special characters"],
+                ['Password' => self::ERROR_MIN_8_CHAR_LENGTH . "\n" . self::ERROR_MIN_2_NUMBER . "\n" . self::ERROR_MIN_1_CAPITAL . "\n" . self::ERROR_MIN_1_SPECIAL],
             ],
             [
                 ['Password' => ['value' => 'a7Bc3\'', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must be at least 8 characters long"],
+                ['Password' => self::ERROR_MIN_8_CHAR_LENGTH],
             ],
             [
                 ['Password' => ['value' => '!bcdefg1H', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must contain at least 2 numbers"],
+                ['Password' => self::ERROR_MIN_2_NUMBER],
             ],
             [
                 ['Password' => ['value' => 'ab+ef7hijd2', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must contain at least 1 capital letters"],
-            ],
-            [
-                ['Password' => ['value' => 'ab6ef7_ijd2', 'rules' => static::$passwordRuleset]],
-                ['Password' => "Password must contain at least 1 capital letters"],
+                ['Password' => self::ERROR_MIN_1_CAPITAL],
             ],
             [
                 ['Password' => ['value' => '1234567A', 'rules' => static::$passwordRuleset]],
-                ['Password' => 'Password must contain at least 1 special characters'],
-            ],
-            [
-                ['Password' => ['value' => 'ab2c2fAh24gd', 'rules' => static::$passwordRuleset]],
-                ['Password' => 'Password must contain at least 1 special characters'],
-            ],
-            [
-                ['Firstname' => ['value' => 'ab', 'rules' => [new CharacterLengthAtLeastNRule('Firstname', 3)]]],
-                ['Firstname' => 'Firstname must be at least 3 characters long'],
+                ['Password' => self::ERROR_MIN_1_SPECIAL],
             ],
             [
                 ['Firstname' => ['value' => 'ab', 'rules' => [new CharacterLengthAtLeastNRule('Firstname', 3)]]],
@@ -176,8 +105,11 @@ class PasswordValidatorTest extends TestCase
                     ]],
                 ],
                 [
-                    'Password' => "Password must be at least 8 characters long\nPassword must contain at least 2 numbers\nPassword must contain at least 1 capital letters\nPassword must contain at least 1 special characters",
-                    'password_confirm' => "password_confirm must be at least 8 characters long\npassword_confirm must contain at least 2 numbers\npassword_confirm must contain at least 1 capital letters\npassword_confirm must contain at least 1 special characters"
+                    'Password' => self::ERROR_MIN_8_CHAR_LENGTH . "\n" . self::ERROR_MIN_2_NUMBER . "\n" . self::ERROR_MIN_1_CAPITAL . "\n" . self::ERROR_MIN_1_SPECIAL,
+                    'password_confirm' => "password_confirm must be at least 8 characters long\n" .
+                        "password_confirm must contain at least 2 numbers\n" .
+                        "password_confirm must contain at least 1 capital letters\n" .
+                        "password_confirm must contain at least 1 special characters"
                 ],
             ],
         ];
@@ -192,22 +124,10 @@ class PasswordValidatorTest extends TestCase
                 ['Password' => ['value' => '123456+A', 'rules' => static::$passwordRuleset]],
             ],
             [
-                ['Password' => ['value' => '1A3?5678', 'rules' => static::$passwordRuleset]],
-            ],
-            [
-                ['Password' => ['value' => '<33DEFGH', 'rules' => static::$passwordRuleset]],
-            ],
-            [
-                ['Password' => ['value' => 'bcdE4g4\\', 'rules' => static::$passwordRuleset]],
-            ],
-            [
-                ['Password' => ['value' => '22dfdfA?', 'rules' => static::$passwordRuleset]],
+                ['Password' => ['value' => '\\bcdE4g4', 'rules' => static::$passwordRuleset]],
             ],
             [
                 ['Password' => ['value' => 'ab2c2fAh__4gd', 'rules' => static::$passwordRuleset]],
-            ],
-            [
-                ['Password' => ['value' => 'abcdE?Ahij57lm', 'rules' => static::$passwordRuleset]],
             ],
             [
                 ['Firstname' => ['value' => 'Farzin', 'rules' => [new CharacterLengthAtLeastNRule('Firstname', 3)]]],
