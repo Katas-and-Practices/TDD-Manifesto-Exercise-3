@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Exercise3\Rules;
 
-abstract class Ruleset
+abstract class RulesetBase
 {
     protected array $ruleset = [];
     protected array $rulesetObjects = [];

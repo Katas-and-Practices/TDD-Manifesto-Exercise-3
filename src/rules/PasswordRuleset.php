@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Exercise3\Rules;
 
-require_once 'Ruleset.php';
+require_once 'RulesetBase.php';
 require_once 'CharacterLengthAtLeastNRule.php';
 require_once 'ContainsAtLeastMNumbersRule.php';
 require_once 'ContainsAtLeastNCapitalLetterRule.php';
 require_once 'ContainsAtLeastNSpecialCharacterRule.php';
 
-class PasswordRuleset extends Ruleset
+class PasswordRuleset extends RulesetBase
 {
     protected array $ruleset = [
         ['class' => CharacterLengthAtLeastNRule::class, 'args' => [8]],
