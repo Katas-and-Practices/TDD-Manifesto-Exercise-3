@@ -9,23 +9,18 @@ require_once 'RuleResult.php';
 
 class CharacterLengthAtLeastNRule extends RuleBase
 {
-    private bool $success;
-
     public function __construct(
         public string $fieldName,
         private int $atLeastCount,
         private string $errorMessage = '{fieldname} must be at least {0} characters long',
     ) {}
 
-    public function apply(string $input): RuleResult
+    protected function calculateSuccess()
     {
-        $this->success = strlen($input) >= $this->atLeastCount;
-        $errorMessage = $this->getErrorMessage();
-
-        return new RuleResult($this->success, $errorMessage);
+        return strlen($this->input) >= $this->atLeastCount;
     }
 
-    private function getErrorMessage(): string
+    protected function getErrorMessage(): string
     {
         return $this->success
             ? ''

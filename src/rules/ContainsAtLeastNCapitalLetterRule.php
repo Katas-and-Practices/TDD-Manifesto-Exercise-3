@@ -9,23 +9,18 @@ require_once 'RuleResult.php';
 
 class ContainsAtLeastNCapitalLetterRule extends RuleBase
 {
-    private bool $success;
-
     public function __construct(
         public string $fieldName,
         private int $atLeastCount,
         private string $errorMessage = '{fieldname} must contain at least {0} capital letters',
     ) {}
 
-    public function apply(string $input): RuleResult
+    protected function calculateSuccess()
     {
-        $this->success = (bool)preg_match('/.*([A-Z].*){' . $this->atLeastCount . ',}/', $input);
-        $errorMessage = $this->getErrorMessage();
-
-        return new RuleResult($this->success, $errorMessage);
+        return (bool)preg_match('/.*([A-Z].*){' . $this->atLeastCount . ',}/', $this->input);
     }
 
-    private function getErrorMessage(): string
+    protected function getErrorMessage(): string
     {
         return $this->success
             ? ''

@@ -8,5 +8,24 @@ require_once 'RuleBase.php';
 
 abstract class RuleBase
 {
-    public abstract function apply(string $input): RuleResult;
+    protected string $input;
+    protected bool $success;
+
+    public function apply(string $input): RuleResult
+    {
+        $this->input = $input;
+        $this->success = $this->calculateSuccess();
+
+        return $this->generateRuleResult();
+    }
+
+    protected function generateRuleResult(): RuleResult
+    {
+        $errorMessage = $this->getErrorMessage();
+
+        return new RuleResult($this->success, $errorMessage);
+    }
+
+    protected abstract function calculateSuccess();
+    protected abstract function getErrorMessage(): string;
 }

@@ -9,22 +9,17 @@ require_once 'RuleResult.php';
 
 class ContainsNoSpecialCharacterRule extends RuleBase
 {
-    private bool $success;
-
     public function __construct(
         public string $fieldName,
         private string $errorMessage = '{fieldname} must not contain any special characters',
     ) {}
 
-    public function apply(string $input): RuleResult
+    protected function calculateSuccess()
     {
-        $this->success = !(bool)preg_match('/.*([`,<.>\/?:;\'\"|\\\{\]}~!@#$%^&*()\-_+=].*){1,}/', $input);
-        $errorMessage = $this->getErrorMessage();
-
-        return new RuleResult($this->success, $errorMessage);
+        return !(bool)preg_match('/.*([`,<.>\/?:;\'\"|\\\{\]}~!@#$%^&*()\-_+=].*){1,}/', $this->input);
     }
 
-    private function getErrorMessage(): string
+    protected function getErrorMessage(): string
     {
         return $this->success
             ? ''
