@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Exercise3\Tests\Unit;
 
 require_once 'src/rules/PasswordRuleset.php';
-require_once 'src/rules/RuleApplicationSimpleAggregator.php';
 require_once 'src/Validator.php';
 
-use Exercise3\Rules\RuleApplicationSimpleAggregator;
 use Exercise3\Rules\CharacterLengthAtLeastNRule;
 use Exercise3\Rules\ContainsAtLeastMNumbersRule;
 use Exercise3\Rules\ContainsAtLeastNCapitalLetterRule;
@@ -24,7 +22,7 @@ class PasswordValidatorTest extends TestCase
 
     public function setUp(): void
     {
-        $this->validator = new Validator(new RuleApplicationSimpleAggregator());
+        $this->validator = new Validator();
     }
 
     public static function customStaticSetup(): void
