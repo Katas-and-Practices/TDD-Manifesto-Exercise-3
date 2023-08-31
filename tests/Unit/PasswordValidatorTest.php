@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Exercise3\Tests\Unit;
 
 require_once 'src/rules/PasswordRuleset.php';
+require_once 'src/rules/UsernameRuleset.php';
 require_once 'src/Validator.php';
 
 use Exercise3\Rules\CharacterLengthAtLeastNRule;
@@ -12,6 +13,7 @@ use Exercise3\Rules\ContainsAtLeastMNumbersRule;
 use Exercise3\Rules\ContainsAtLeastNCapitalLetterRule;
 use Exercise3\Rules\ContainsAtLeastNSpecialCharacterRule;
 use Exercise3\Rules\PasswordRuleset;
+use Exercise3\Rules\UsernameRuleset;
 use Exercise3\Validator;
 use PHPUnit\Framework\TestCase;
 
@@ -19,6 +21,7 @@ class PasswordValidatorTest extends TestCase
 {
     public Validator $validator;
     public static array $passwordRuleset;
+    public static array $usernameRuleset;
 
     protected const ERROR_MIN_8_CHAR_LENGTH = 'Password must be at least 8 characters long';
     protected const ERROR_MIN_2_NUMBER = 'Password must contain at least 2 numbers';
@@ -34,6 +37,9 @@ class PasswordValidatorTest extends TestCase
     {
         if (!isset(static::$passwordRuleset)) {
             static::$passwordRuleset = (new PasswordRuleset('Password'))->getRules();
+        }
+        if (!isset(static::$usernameRuleset)) {
+            static::$usernameRuleset = (new UsernameRuleset('Username'))->getRules();
         }
     }
 
@@ -112,6 +118,15 @@ class PasswordValidatorTest extends TestCase
                         "password_confirm must contain at least 1 special characters"
                 ],
             ],
+            [
+                [
+                    'Username' => ['value' => 'fa+', 'rules' => static::$usernameRuleset]
+                ],
+                [
+                    'Username' => "Username must be at least 4 characters long\n" .
+                        'Username must not contain any special characters'
+                ],
+            ],
         ];
     }
 
@@ -146,6 +161,9 @@ class PasswordValidatorTest extends TestCase
                         ]
                     ]
                 ],
+            ],
+            [
+                ['Username' => ['value' => 'farzin', 'rules' => static::$usernameRuleset]],
             ],
         ];
     }
